@@ -3,18 +3,21 @@
     "sources": [
       "loopback/common/models",
       "loopback/server/models",
-      "../common/models",
-      "./models"
+      "../../common/models",
+      "../../models"
     ],
     "mixins": [
       "loopback/common/mixins",
       "loopback/server/mixins",
-      "../common/mixins",
-      "./mixins"
+      "../../common/mixins"
     ]
   },
+  "ACL": {
+    "dataSource": "mongodb",
+    "public": false
+  },
   "CoffeeShop": {
-    "dataSource": "db",
+    "dataSource": "mongodb",
     "public": true
   }
 }

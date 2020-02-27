@@ -5,10 +5,15 @@
 
 'use strict';
 
-const loopback = require('loopback');
-const boot = require('loopback-boot');
+import loopback from 'loopback';
+import execute from 'loopback-boot/lib/executor';
+import compiler from 'loopback-boot/lib/compiler';
+import path from 'path';
+import dotenv from 'dotenv';
 
-const app = module.exports = loopback();
+dotenv.config();
+
+const app = (module.exports = loopback());
 
 app.start = function() {
   // start the web server
@@ -23,12 +28,24 @@ app.start = function() {
   });
 };
 
+const bootOptions = {
+  appRootDir: __dirname,
+  componentRootDir: path.join(__dirname, './configs/lb-component-config'),
+  middlewareRootDir: path.join(__dirname, './configs/lb-middleware-config'),
+  appConfigRootDir: path.join(__dirname, './configs/lb-config'),
+  dsRootDir: path.join(__dirname, './configs/lb-ds-config'),
+  modelsRootDir: path.join(__dirname, './configs/lb-model-config')
+};
+
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
-boot(app, __dirname, function(err) {
-  if (err) throw err;
-
+const lbBootCompiled = compiler(bootOptions);
+execute(app, lbBootCompiled, function(err) {
+  if (err) {
+    throw err;
+  }
   // start the server if `$ node server.js`
-  if (require.main === module)
+  if (require.main === module) {
     app.start();
+  }
 });

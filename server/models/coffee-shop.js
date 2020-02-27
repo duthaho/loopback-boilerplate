@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = function(CoffeeShop) {};
+export default function(CoffeeShop) {}
