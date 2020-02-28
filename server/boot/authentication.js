@@ -1,15 +1,15 @@
 module.exports = function enableAuthentication(server) {
   // enable authentication
   server.enableAuth();
-  const loopback = server.loopback;
+  const { loopback } = server;
   const accessTokenModel = loopback.getModelByType(loopback.AccessToken);
 
   server.middleware(
     'auth',
     loopback.token({
       model: accessTokenModel,
-      currentUserLiteral: 'me'
-    })
+      currentUserLiteral: 'me',
+    }),
   );
 
   if (process.env.NODE_ENV !== 'production') {

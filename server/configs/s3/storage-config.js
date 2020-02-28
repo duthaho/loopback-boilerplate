@@ -4,5 +4,5 @@ export const storageDs = {
   region: 'eu-central-1',
   provider: 'amazon',
   key: process.env.AWS_SECRET_ACCESS_KEY,
-  keyId: process.env.AWS_ACCESS_KEY_ID
+  keyId: process.env.AWS_ACCESS_KEY_ID,
 };

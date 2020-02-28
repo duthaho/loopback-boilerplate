@@ -8,5 +8,12 @@
   ],
   "plugins": [
     "import"
-  ]
+  ],
+  "rules": {
+    "space-before-function-paren": "off",
+    "no-console": "off",
+    "no-multi-assign": "off",
+    "arrow-body-style": "off",
+    "import/prefer-default-export": "off"
+  }
 }

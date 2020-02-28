@@ -12,8 +12,8 @@ module.exports = {
     name: 'mongodb',
     connector: 'mongodb',
     allowExtendedOperators: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
   },
   emailDs,
-  storage: storageDs
+  storage: storageDs,
 };

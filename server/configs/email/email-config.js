@@ -10,8 +10,8 @@ export const emailDs = {
       ignoreTLS: true,
       debug: true,
       auth: {
-        apiKey: process.env.MANDRILL_API_KEY
-      }
-    }
-  ]
+        apiKey: process.env.MANDRILL_API_KEY,
+      },
+    },
+  ],
 };
