@@ -13,7 +13,9 @@
     "space-before-function-paren": "off",
     "no-console": "off",
     "no-multi-assign": "off",
+    "no-param-reassign": "off",
     "arrow-body-style": "off",
+    "consistent-return": "off",
     "import/prefer-default-export": "off"
   }
 }

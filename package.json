@@ -12,6 +12,7 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
+    "async": "^3.2.0",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "dotenv": "^8.2.0",
@@ -21,6 +22,7 @@
     "loopback-component-explorer": "^6.2.0",
     "loopback-component-storage": "^3.6.3",
     "loopback-connector-mongodb": "^4.2.0",
+    "loopback-ds-timestamp-mixin": "^3.4.1",
     "nodemon": "^2.0.2",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^3.0.0"

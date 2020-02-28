@@ -1,0 +1,22 @@
+{
+  "name": "Reviewer",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "reviews": {
+      "type": "hasMany",
+      "model": "Review",
+      "foreignKey": "reviewerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

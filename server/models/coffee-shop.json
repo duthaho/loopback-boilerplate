@@ -5,6 +5,9 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "TimeStamp": true
+  },
   "properties": {
     "name": {
       "type": "string",
@@ -16,13 +19,24 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "reviews": {
+      "type": "hasMany",
+      "model": "Review",
+      "foreignKey": "coffeeShopId"
+    },
+    "reviewers": {
+      "type": "hasMany",
+      "model": "Reviewer",
+      "foreignKey": "coffeeShopId"
+    }
+  },
   "acls": [
     {
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "DENY"
+      "permission": "ALLOW"
     }
   ],
   "methods": {}
