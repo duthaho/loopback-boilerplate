@@ -1,3 +1,5 @@
+import { CreateTask } from '../../../services/TaskManager';
+
 export default (CoffeeShop) => {
   CoffeeShop.getName = (id, req, callback) => {
     CoffeeShop.findById(id, (err, instance) => {
@@ -7,6 +9,7 @@ export default (CoffeeShop) => {
       if (!instance) {
         return callback(new Error('err.coffeeShop.notExists'));
       }
+      CreateTask('TEST_TASK', { name: instance.name });
       callback(null, instance.name);
     });
   };

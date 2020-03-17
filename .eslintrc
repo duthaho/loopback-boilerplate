@@ -12,10 +12,13 @@
   "rules": {
     "space-before-function-paren": "off",
     "no-console": "off",
+    "no-underscore-dangle": "off",
     "no-multi-assign": "off",
     "no-param-reassign": "off",
     "arrow-body-style": "off",
+    "arrow-parens": "off",
     "consistent-return": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "object-curly-newline": "off"
   }
 }

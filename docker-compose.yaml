@@ -1,37 +1,24 @@
-version: '3'
+mongo1:
+  hostname: mongo1
+  image: 'mongo:4.2'
+  ports:
+    - '27017:27017'
 
-services:
-  loopback-getting-started:
-    build: .
-    volumes:
-      # Mounts the project directory on the host to /app inside the container,
-      # allowing you to modify the code without having to rebuild the image.
-      - .:/app
-      # Just specify a path and let the Engine create a volume.
-      # Data present in the base image at the specified mount point will be copied
-      # over to the new volume upon volume initialization.
-      # node_modules from this new volume will be used and not from your local dev env.
-      - /app/node_modules/
+redis1:
+  hostname: redis1
+  image: 'hpess/redis:master'
+  privileged: true
+  ports:
+    - '6379:6379'
 
-    # Expose ports [HOST:CONTAINER}
-    ports:
-      - '3000:3000'
-
-    # Set environment variables from this file
-    env_file:
-      - .env
-
-    # Overwrite any env var defined in .env file (if required)
-    environment:
-      - MONGO_URL=mongodb://mongo/coffeeshop_dev
-
-    # Link to containers in another service.
-    # Links also express dependency between services in the same way as depends_on,
-    # so they determine the order of service startup.
-    links:
-      - mongo
-
-  mongo:
-    image: 'mongo'
-    ports:
-      - '27017:27017'
+sentinel1:
+  environment:
+    - master_name=redis1
+  hostname: sentinel1
+  image: 'hpess/redis:master'
+  links:
+    - redis1
+  privileged: true
+  restart: always
+  ports:
+    - '26379:26379'

@@ -3,23 +3,72 @@ import execute from 'loopback-boot/lib/executor';
 import compiler from 'loopback-boot/lib/compiler';
 import path from 'path';
 import dotenv from 'dotenv';
+import async from 'async';
 
 dotenv.config();
 
+// eslint-disable-next-line import/first
+import { initQueue } from './services/queue/bullQueue';
+
 const app = (module.exports = loopback());
+let httpServer;
+let queue;
 
 app.start = () => {
-  // start the web server
-  return app.listen(() => {
-    app.emit('started');
-    const baseUrl = app.get('url').replace(/\/$/, '');
-    console.log('Web server listening at: %s', baseUrl);
-    if (app.get('loopback-component-explorer')) {
-      const explorerPath = app.get('loopback-component-explorer').mountPath;
-      console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+  const startQueue = (cb) => {
+    initQueue(app, cb);
+  };
+  const startHttp = (cb) => {
+    httpServer = app.listen(cb);
+  };
+  const methods = {
+    queue: startQueue,
+    http: startHttp,
+  };
+
+  async.parallel(methods, (err, result) => {
+    if (err) {
+      throw err;
     }
+    // eslint-disable-next-line prefer-destructuring
+    queue = result.queue;
+    app.set('trust proxy', app.get('cookieSecure') === true);
+    const baseUrl = app.get('url').replace(/\/$/, '');
+    console.log('*** API HTTP listening at: %s ***', baseUrl);
+    console.log('*** API QUEUE running');
+    app.emit('started');
   });
 };
+
+/* eslint no-process-exit:0 */
+process.on('SIGINT', () => {
+  const methods = [];
+  if (httpServer && typeof httpServer.close === 'function') {
+    methods.push((cb) => {
+      console.log('*** graceful shutdown HTTP ***');
+      httpServer.close((err) => {
+        cb(err);
+      });
+    });
+  }
+  if (queue && typeof queue.close === 'function') {
+    methods.push((cb) => {
+      console.log('*** graceful shutdown Queue ***');
+      queue
+        .close()
+        .then(() => {
+          cb();
+        })
+        .catch((err) => {
+          cb(err);
+        });
+    });
+  }
+
+  async.parallel(methods, (err) => {
+    process.exit(err ? 1 : 0);
+  });
+});
 
 const bootOptions = {
   appRootDir: __dirname,
