@@ -1,8 +1,42 @@
+mongo3:
+  hostname: mongo3
+  image: mongo:4.2
+  entrypoint: ['/usr/bin/mongod', '--replSet', 'rs', '--journal', '--bind_ip_all']
+  ports:
+    - '27018:27017'
+    - '28018:28017'
+  restart: always
+
+mongo2:
+  hostname: mongo2
+  image: mongo:4.2
+  entrypoint: ['/usr/bin/mongod', '--replSet', 'rs', '--journal', '--bind_ip_all']
+  ports:
+    - '27019:27017'
+    - '28019:28017'
+  restart: always
+
 mongo1:
   hostname: mongo1
-  image: 'mongo:4.2'
+  image: mongo:4.2
+  entrypoint: ['/usr/bin/mongod', '--replSet', 'rs', '--journal', '--bind_ip_all']
   ports:
     - '27017:27017'
+    - '28017:28017'
+  links:
+    - mongo2:mongo2
+    - mongo3:mongo3
+  restart: always
+
+# This configures the MongoDB replicaset
+mongosetup:
+  build: ./docker/mongosetup/
+  links:
+    - mongo1:mongo1
+    - mongo2:mongo2
+    - mongo3:mongo3
+  volumes:
+    - ./docker/mongosetup:/mongosetup
 
 redis1:
   hostname: redis1

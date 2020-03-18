@@ -26,6 +26,7 @@
     "loopback-component-storage": "^3.6.3",
     "loopback-connector-mongodb": "^4.2.0",
     "loopback-ds-timestamp-mixin": "^3.4.1",
+    "mongodb": "^3.5.5",
     "nodemon": "^2.0.2",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^3.0.0"
